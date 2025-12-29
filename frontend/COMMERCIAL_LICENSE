@@ -1,0 +1,135 @@
+COMMERCIAL SOFTWARE LICENSE AGREEMENT (BINARY-ONLY)
+
+PLEASE READ THIS AGREEMENT CAREFULLY.
+BY PURCHASING A COMMERCIAL LICENSE, DOWNLOADING, INSTALLING, OR USING THE SOFTWARE FOR PROPRIETARY PURPOSES, YOU AGREE TO BE BOUND BY THE TERMS OF THIS AGREEMENT.
+
+
+1. PARTIES AND EFFECTIVE DATE
+
+This Commercial Software License Agreement ("Agreement") is entered into between Contextual, Inc., a Delaware corporation ("Licensor"), and the entity or individual purchasing the license ("Licensee").
+
+This Agreement becomes effective upon Licensor’s receipt of payment of the initial subscription fee ("Effective Date").
+
+
+2. DEFINITIONS
+
+For purposes of this Agreement:
+
+"Software" means Licensor’s proprietary software product provided under this Agreement in object code, binary, or hosted form only, including any associated proprietary documentation and updates provided by Licensor under this Agreement.
+
+"Open Source Version" means certain components of software with similar or related functionality that Licensor may make available separately under one or more open source licenses through publicly accessible repositories.
+
+"Subscription Term" means the period during which Licensee has paid the applicable subscription fees and this Agreement remains in effect.
+
+
+3. GRANT OF LICENSE
+
+Subject to timely payment of all applicable subscription fees and compliance with the terms of this Agreement, Licensor grants Licensee a non-exclusive, non-transferable, worldwide license during the Subscription Term to:
+
+(a) Install and use the Software for Licensee’s internal business purposes;
+(b) Deploy and operate the Software in production environments; and
+(c) If applicable, distribute the Software solely in object code form as an embedded or bundled component of Licensee’s proprietary application.
+
+No rights to source code are granted under this Agreement.
+
+
+4. RESTRICTIONS
+
+Licensee shall not, and shall not permit any third party to:
+
+(a) Access, view, copy, modify, adapt, translate, or create derivative works of the Software;
+(b) Reverse engineer, decompile, disassemble, or otherwise attempt to discover the source code, underlying structure, or algorithms of the Software, except to the extent expressly permitted by applicable law notwithstanding this limitation;
+(c) Distribute, sublicense, rent, lease, sell, or resell the Software as a standalone product or as a competing or substantially similar development tool;
+(d) Remove or alter any proprietary notices or labels on the Software;
+(e) Conduct or publish any performance or benchmark tests or analysis relating to the Software without Licensor’s prior written consent, except where prohibited by applicable law; or
+(f) Use the Software in violation of applicable laws or regulations.
+
+
+5. OPEN SOURCE DISTRIBUTION
+
+Licensor may make certain components of software with similar or related functionality available separately under one or more open source licenses through publicly accessible repositories (the "Open Source Version").
+
+This Agreement does not grant Licensee any rights under any open source license. Any rights to use, modify, or distribute the Open Source Version are granted solely under the terms of the applicable open source license and only with respect to copies of the software obtained from such repositories.
+
+The Software provided under this Agreement is a separate commercial distribution, provided solely in object code or hosted form, and is not licensed under any open source license.
+
+
+6. NO OPEN SOURCE OBLIGATIONS
+
+The Software provided under this Agreement is not licensed under the GNU Affero General Public License (AGPL), GNU General Public License (GPL), or any other open source license, and does not impose any obligation to disclose source code, modifications, or derivative works.
+
+Operation or access to the Software over a network does not trigger any obligation to disclose source code or make the Software available under any open source license.
+
+No rights are granted by implication, estoppel, or otherwise under any open source license with respect to the Software.
+
+
+7. OWNERSHIP AND INTELLECTUAL PROPERTY
+
+The Software is licensed, not sold. Licensor retains all right, title, and interest in and to the Software, and all associated intellectual property rights.
+
+Licensee acknowledges that the Software is proprietary to Licensor and that no ownership rights are transferred under this Agreement.
+
+
+8. TERM, TERMINATION, AND ENFORCEMENT
+
+8.1 Subscription Term
+
+The initial Subscription Term is one (1) year from the Effective Date and will automatically renew for successive one-year periods upon payment of the then-current subscription fee. To avoid any interruption of service or functionality, Licensee must obtain and apply any renewed or updated license keys, tokens, or credentials prior to the expiration of the then-current Subscription Term.
+
+8.2 Technical Enforcement
+
+Licensee acknowledges and agrees that the Software may contain technical protection measures, including embedded cryptographic tokens (e.g., license keys or JWTs), designed to automatically disable functionality upon expiration or termination of the Subscription Term. Licensee expressly consents to the operation of such measures.
+
+8.3 License Renewal Responsibility
+
+Upon renewal, Licensee is solely responsible for obtaining and applying updated license files, keys, or credentials. Licensor is not liable for any service interruption, downtime, or data loss resulting from Licensee’s failure to timely apply such updates.
+
+8.4 Updates
+
+During a valid Subscription Term, Licensee may install and use updates provided by Licensor. Licensor has no obligation to maintain compatibility with any third-party software or Licensee systems.
+
+8.5 Audit Rights
+
+During the Subscription Term and for one (1) year thereafter, Licensor or its designated auditor may, upon reasonable notice, audit Licensee’s use of the Software solely to verify compliance with this Agreement. Licensee shall provide reasonable assistance and access to information for such audit.
+
+8.6 Termination for Non-Payment
+
+If Licensee fails to pay any applicable renewal fee, this Agreement will automatically terminate at the end of the current paid Subscription Term, and the Software will cease to function through technical enforcement measures.
+
+8.7 Effect of Termination
+
+Upon termination or expiration of this Agreement, Licensee must immediately cease all use of the Software and permanently delete or destroy all copies in its possession or control, except for archival copies retained solely for legal or compliance purposes.
+
+
+9. CONFIDENTIALITY
+
+Licensee agrees to maintain the confidentiality of the Software, its pricing, any license keys, and any non-public documentation or information provided by Licensor ("Confidential Information"). Licensee shall use the same degree of care to protect Confidential Information as it uses for its own similar information, but in no event less than reasonable care.
+
+
+10. INDEMNIFICATION
+
+Licensor shall defend Licensee against any third-party claim that the Software infringes a United States patent or copyright, and shall indemnify Licensee against any final judgment or settlement amount resulting from such claim, provided that Licensee: (a) promptly notifies Licensor of the claim; (b) grants Licensor sole control of the defense and settlement; and (c) provides reasonable assistance. This indemnity does not apply to claims arising from Licensee’s unauthorized modifications of the Software or use of the Software in combination with third-party products.
+
+
+11. WARRANTY AND LIABILITY
+
+11.1 Disclaimer
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+
+11.2 Limitation of Liability
+
+IN NO EVENT SHALL LICENSOR BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR EXEMPLARY DAMAGES ARISING OUT OF OR IN CONNECTION WITH THIS AGREEMENT OR THE SOFTWARE.
+
+LICENSOR’S TOTAL LIABILITY SHALL NOT EXCEED THE LICENSE FEES PAID BY LICENSEE DURING THE TWELVE (12) MONTHS PRECEDING THE CLAIM. THIS LIMITATION SHALL NOT APPLY TO LICENSOR’S INDEMNIFICATION OBLIGATIONS UNDER SECTION 10.
+
+
+12. GENERAL PROVISIONS
+
+(a) Governing Law: This Agreement shall be governed by and construed in accordance with the laws of the State of Delaware, USA, without regard to conflict of law principles.
+(b) Export Control: Licensee agrees to comply with all applicable United States export and import laws and regulations. Licensee represents that it is not listed on any U.S. government denied-party list.
+(c) Marketing: Licensor may use Licensee’s name and logo in marketing materials and on its website to identify Licensee as a customer, unless Licensee opts out by providing written notice to Licensor.
+(d) Severability: If any provision of this Agreement is held unenforceable, the remaining provisions shall remain in full force and effect.
+(e) Entire Agreement: This Agreement constitutes the complete and exclusive agreement between the parties concerning the Software and supersedes all prior or contemporaneous agreements.
+
+For commercial licensing inquiries, please contact: license@hasmcp.com

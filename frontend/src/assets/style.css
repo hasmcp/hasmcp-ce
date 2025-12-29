@@ -1,0 +1,38 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+
+@theme {
+  --font-inter: Inter, sans-serif;
+}
+
+@layer theme {
+  :root {
+    font-feature-settings:
+      'liga' 1,
+      'calt' 1;
+  }
+
+  @supports (font-variation-settings: normal) {
+    :root {
+      --font-inter: InterVariable, sans-serif;
+    }
+  }
+}
+
+/* In your global CSS file */
+:root {
+  /* Use 'Inter Variable' for modern browsers supporting variable fonts */
+  font-family: 'Inter Variable', sans-serif;
+}
+
+@supports (font-variation-settings: normal) {
+  /* Fallback for browsers that don't fully support variable fonts */
+  :root {
+    font-family: 'Inter var', sans-serif;
+  }
+}
+
+/* Fallback for older browsers */
+body {
+  font-family: Inter, sans-serif;
+}

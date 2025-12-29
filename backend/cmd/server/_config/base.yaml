@@ -1,0 +1,108 @@
+sqlite:
+  enabled: "${SQLITE_ENABLED:true}"
+  dsn: "./_storage/hasmcp.sqlite3"
+  maxIdleConns: 10
+  maxOpenConns: 100
+  maxConnLifetime: 1h
+
+# services below
+
+httpc:
+  timeout: 10s
+  userAgent: hasmcp-client
+
+idgen:
+  epochTimeInSeconds: 1760333708
+  node: "${MONOFLAKE_NODE:0}"
+  nodeBits: 8
+
+locksmith:
+  salt: "${HASMCP_ENCRYPTION_HASH_SALT:gXaFk6iVt3zzjw}"
+  encryptionKey: "${HASMCP_ENCRYPTION_KEY:AABA9166CFA48C92C1C12B8EC51510C5961CBB93CECF3D7CB183734952096655}"
+
+server:
+  caseSensitiveRoutes: true
+  port: "${PORT:8887}"
+  sslPort: "${HASMCP_SERVER_SSL_PORT:443}"
+  sslEnabled: "${HASMCP_SERVER_SSL_ENABLED:false}"
+  sslCacheDir: "./_certs"
+  letsencryptEmail: "${HASMCP_SERVER_LETSENCRYPT_EMAIL:ssl@example.com}"
+  domainName: "${HASMCP_SERVER_DOMAIN_NAME:example.com}"
+  maxBodySizeInBytes: "${HASMCP_SERVER_MAX_BODY_SIZE_IN_BYTES:10000000}" # default: 10MB
+
+pubsub:
+  maxDurationForSubscriberToReceive: 10s
+
+# server middlewares below
+
+## api middlewares
+
+apiauth:
+  enabled: "${HASMCP_API_AUTH_ENABLED:true}"
+  apiAccessToken: "${HASMCP_API_ACCESS_TOKEN:test}"
+
+apilogger:
+  enabled: "${HASMCP_API_LOGGER_ENABLED:true}"
+
+apiratelimit:
+  enabled: "${HASMCP_API_RATELIMIT_ENABLED:true}"
+  maxPerIP: "${HASMCP_API_RATELIMIT_MAX_PER_IP:1000}"
+  window: "${HASMCP_API_RATELIMIT_WINDOW:60s}"
+
+apicors:
+  enabled: true
+  hostnames: ["${HASMCP_API_CORS_HOSTNAME:localhost}"]
+
+## mcp middlewares
+
+mcpcors:
+  enabled: true
+  hostnames: ["${HASMCP_MCP_CORS_HOSTNAME:localhost}"]
+
+mcplogger:
+  enabled: "${HASMCP_MCP_LOGGER_ENABLED:true}"
+
+mcpratelimit:
+  enabled: "${HASMCP_MCP_RATELIMIT_ENABLED:true}"
+  maxPerIP: "${HASMCP_MCP_RATELIMIT_MAX_PER_IP:60}"
+  window: "${HASMCP_MCP_RATELIMIT_WINDOW:60s}"
+
+## oauth2 middlewares
+
+oauth2cors:
+  enabled: true
+  hostnames: ["${HASMCP_OAUTH2_CORS_HOSTNAME:localhost}"]
+
+oauth2logger:
+  enabled: "${HASMCP_OAUTH2_LOGGER_ENABLED:true}"
+
+oauth2ratelimit:
+  enabled: "${HASMCP_OAUTH2_RATELIMIT_ENABLED:true}"
+  maxPerIP: "${HASMCP_OAUTH2_RATELIMIT_MAX_PER_IP:60}"
+  window: "${HASMCP_OAUTH2_RATELIMIT_WINDOW:60s}"
+
+# jwt related secrets below
+
+## api auth jwt
+
+apijwt:
+  secret: "${HASMCP_API_JWT_SECRET:75EFC11969D7E13D39235C4E4D4E22A022E608180FB479F6992FFDB072C9985F}"
+
+## mcp auth
+
+mcpjwt:
+  secret: "${HASMCP_MCP_JWT_SECRET:C7B30E17FE8CBBDE6CC74D54549CB3D99F3B7DDC95113BAE927C8AE17862B1AC}"
+
+## oauth2 provider state verification
+oauth2McpProviderJwt:
+  secret: "${HASMCP_OAUTH2_MCP_PROVIDER_JWT_SECRET:5B712508B6A090723A0A8B6D0D0C07DB}"
+
+oauth2McpProvider:
+  httpScheme: "${HASMCP_OAUTH2_MCP_PROVIDER_HTTP_SCHEME:http}"
+
+postgres: # postgresql
+  enabled: "${POSTGRES_ENABLED:false}"
+  dsn: "host=${POSTGRES_HOST:localhost} user=${POSTGRES_USER:user} password=${POSTGRES_PASSWORD:pass} dbname=${POSTGRES_DBNAME:hasmcp_app} port=${POSTGRES_PORT:5432} sslmode=disable TimeZone=${POSTGRES_TIMEZONE:UTC}"
+  maxIdleConns: 10
+  maxOpenConns: 100
+  connMaxLifetime: 1h
