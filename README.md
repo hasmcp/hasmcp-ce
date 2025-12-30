@@ -43,7 +43,7 @@ Cloud version is available with Hobby(with monthly free-tier) and Pro subscripti
 
 ## HasMCP-CE Demo
 
-![HasMCP-CE Demo](demo/hasmcp-v-0.1.0.gif)
+![HasMCP-CE Demo](demo/hasmcp-v0.1.0.gif)
 
 ## Roadmap
 
