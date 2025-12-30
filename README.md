@@ -41,6 +41,10 @@ Cloud version is available with Hobby(with monthly free-tier) and Pro subscripti
 - Help developers and companies those are not intersted in running a server and maintain it
 - Entrepreneurship
 
+## HasMCP-CE Demo
+
+![HasMCP-CE Demo](demo/hasmcp-v-0.1.0.gif)
+
 ## Roadmap
 
 ### Highest priority
