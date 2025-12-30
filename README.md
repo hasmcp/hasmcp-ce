@@ -38,7 +38,7 @@ Cloud version is available with Hobby(with monthly free-tier) and Pro subscripti
 **Why does it have cloud version?**
 
 - To support futher development
-- Help developers and companies those are not intersted in running a server and maintain it
+- Help developers and companies those are not interested in running a server and maintain it
 - Entrepreneurship
 
 ## HasMCP-CE Demo
