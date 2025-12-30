@@ -45,28 +45,28 @@ Cloud version is available with Hobby(with monthly free-tier) and Pro subscripti
 
 ### Highest priority
 
-[ ] Bug fixes (Highest priority)
-[ ] Protocol updates
+- [ ] Bug fixes (Highest priority)
+- [ ] Protocol updates
 
 ### HasMCP-CE (including Pro and Enterprise) short term roadmap
 
 **Observability and analytics**
 
-[ ] Live MCP server analytics (In progress)
+- [ ] Live MCP server analytics (In progress)
 
 **Functionality and token optimizations**
 
-[ ] MCP composition with Search/Add/Remove by LLMs directly (ETA: January 2026)
-[ ] Toon format on responses (ETA: January 2026)
+- [ ] MCP composition with Search/Add/Remove by LLMs directly (ETA: January 2026)
+- [ ] Toon format on responses (ETA: January 2026)
 
 **Extended protocol support**
 
-[ ] GRPC support (ETA: February 2026)
+- [ ] GRPC support (ETA: February 2026)
 
 ### Long term road map
 
-[ ] Github integration (Git as source of truth)
-[ ] Your requirements
+- [ ] Github integration (Git as source of truth)
+- [ ] Your requirements
 
 ## Development
 
