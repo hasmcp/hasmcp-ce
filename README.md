@@ -142,16 +142,15 @@ cd hasmcp
 mkdir -p _certs _storage # creates folders
 chmod 0777 _certs
 chmod 0777 _storage
-wget https://github.com/hasmcp/hasmcp-ce/blob/main/backend/cmd/server/.env.example -O .env
 ```
 
 **.env file**
 
-`.env` overrides the configurations that to ensure you do not need to store.
+`.env` overrides the default configurations. It is highly recommended to use .env constants to set the values to your desired values.
 
 ```
-cd hasmcp
-wget .env.example .env
+cd hasmcp # if you are not in this folder yet (if you continue from the previous step you should be inside this folder already)
+wget https://github.com/hasmcp/hasmcp-ce/blob/main/backend/cmd/server/.env.example -O .env
 ```
 
 After downloading the example .env file, edit the content as you wish.
