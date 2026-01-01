@@ -118,20 +118,6 @@ func (c *controller) CallSession(ctx context.Context, req CallSessionRequest) (*
 		}
 
 		sessionInfo = fmt.Sprintf("%d.%s/%s", sessionRes.SessionID, sessionRes.InitializeParams.ClientInfo.Name, sessionRes.InitializeParams.ProtocolVersion)
-
-		// session, err := c.getSession(req.ServerID, monoflake.IDFromBase62(req.McpSessionID).Int64())
-		// if err != nil {
-		// 	// return nil, jsonrpc.Error{
-		// 	// 	Code:    jsonrpc.ErrCodeMethodNotFound,
-		// 	// 	Message: "Please initialize a new MCP session to make request",
-		// 	// 	Data: map[string]any{
-		// 	// 		"reason":         err.Error(),
-		// 	// 		"Mcp-Session-Id": req.McpSessionID,
-		// 	// 	},
-		// 	// }
-		// } else {
-		// 	sessionInfo = fmt.Sprintf("%s.%s/%s", req.McpSessionID, session.initializeParams.ClientInfo.Name, session.initializeParams.ProtocolVersion)
-		// }
 	}
 
 	eventType := fmt.Sprintf("%s.%s", sessionInfo, req.Request.Method)
