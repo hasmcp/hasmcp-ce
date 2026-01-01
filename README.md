@@ -1,6 +1,6 @@
 # HasMCP-CE
 
-HasMCP is a tool that converts API endpoints into MCP Server without writing a single line of code. It is practical alternative for developers and SaaS owner who prefers not to develop anad maintain MCP spec changes over time.
+HasMCP is a tool that converts API endpoints into MCP Server without writing a single line of code. It is practical alternative for developers and SaaS owners who prefers not to develop anad maintain MCP spec changes over time.
 
 HasMCP-CE shares the some logic for the commercial
 versions of the `HasMCP-Pro` and `HasMCP-Enterprise`.
@@ -28,7 +28,7 @@ production.
 
 ## HasMCP Cloud Features
 
-Cloud version is available with Hobby(with monthly free-tier) and Pro subscriptions at [hasmcp.com](https://hasmcp.com). It has some additonal feaatures compared to the Community Edition:
+Cloud version is available with Hobby(with monthly free-tier) and Pro subscriptions at [hasmcp.com](https://hasmcp.com). It has some additonal features compared to the Community Edition:
 
 - Request/response payload optimization per tool with a minimum coding (interceptors). Up to 98% token reduction on MCP tool responses (depending on what is needed by the described tool).
 - Per tool call, per user usage analytics
