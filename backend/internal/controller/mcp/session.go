@@ -117,7 +117,12 @@ func (c *controller) CallSession(ctx context.Context, req CallSessionRequest) (*
 			}
 		}
 
-		sessionInfo = fmt.Sprintf("%d.%s/%s", sessionRes.SessionID, sessionRes.InitializeParams.ClientInfo.Name, sessionRes.InitializeParams.ProtocolVersion)
+		sessionInfo = fmt.Sprintf(
+			"%s.%s/%s",
+			monoflake.ID(sessionRes.SessionID).String(),
+			sessionRes.InitializeParams.ClientInfo.Name,
+			sessionRes.InitializeParams.ProtocolVersion,
+		)
 	}
 
 	eventType := fmt.Sprintf("%s.%s", sessionInfo, req.Request.Method)
