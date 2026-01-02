@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed, reactive, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import { useMcpserverStore } from '../stores/serverStore'
 import { useAuthStore } from '../stores/authStore'
@@ -15,6 +15,66 @@ const server = computed(() => serverStore.getMcpserverById(serverId.value))
 const logEntries = ref([])
 const status = ref('Initializing...')
 const error = ref(null)
+
+// --- Realtime Analytics State ---
+const analytics = reactive({
+  totalCalls: 0,
+  totalToolCalls: 0,
+  sessions: new Set(),
+  clients: new Set(),
+  toolCalls: {},   // { toolName: count }
+  methodCalls: {}  // { methodName: count }
+})
+
+const stats = computed(() => ({
+  clientsCount: analytics.clients.size,
+  sessionsCount: analytics.sessions.size,
+  toolCallsCount: analytics.totalToolCalls,
+  totalCallsCount: analytics.totalCalls,
+  topTools: Object.entries(analytics.toolCalls)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5),
+  topMethods: Object.entries(analytics.methodCalls)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+}))
+
+const updateAnalytics = (entry) => {
+  // Focus on incoming requests starting with «
+  if (!entry.event || !entry.event.startsWith('«')) return
+
+  analytics.totalCalls++
+
+  // Format: « [session].[client]/[version].[method]
+  const eventParts = entry.event.split(' ')
+  if (eventParts.length < 2) return
+
+  const fullMeta = eventParts[1]
+  const lastDotIndex = fullMeta.lastIndexOf('.')
+  const methodName = fullMeta.substring(lastDotIndex + 1)
+  const prefix = fullMeta.substring(0, lastDotIndex)
+  const metaSegments = prefix.split('.')
+
+  const sessionId = metaSegments[0]
+  const clientInfo = metaSegments[1] || ''
+  const clientName = clientInfo.split('/')[0]
+
+  if (sessionId) analytics.sessions.add(sessionId)
+  if (clientName) analytics.clients.add(clientName)
+
+  analytics.methodCalls[methodName] = (analytics.methodCalls[methodName] || 0) + 1
+
+  if (methodName === 'tools/call' && entry.data) {
+    analytics.totalToolCalls++
+    try {
+      const dataJson = JSON.parse(entry.data)
+      const toolName = dataJson.name.substr(13)
+      if (toolName) {
+        analytics.toolCalls[toolName] = (analytics.toolCalls[toolName] || 0) + 1
+      }
+    } catch (e) { /* ignore parse errors */ }
+  }
+}
 
 let abortController = new AbortController()
 
@@ -33,8 +93,8 @@ const closeJsonModal = () => {
 
 const getEventClass = (eventName) => {
   if (!eventName) return 'text-gray-400'
-  if (eventName.startsWith('req')) return 'text-blue-400'
-  if (eventName.startsWith('res')) return 'text-green-400'
+  if (eventName.startsWith('req') || eventName.includes('«')) return 'text-blue-400'
+  if (eventName.startsWith('res') || eventName.includes('»')) return 'text-green-400'
   if (eventName.includes('error')) return 'text-red-500'
   return 'text-yellow-400'
 }
@@ -51,12 +111,16 @@ const startLogStream = async (tokenValue) => {
       currentEventGroup.raw.length > 0
     ) {
       const rawData = currentEventGroup.data.join('')
-      logEntries.value.unshift({
+      const newEntry = {
         id: currentEventGroup.id,
         event: currentEventGroup.event,
         data: rawData,
         raw: currentEventGroup.raw.join('\n'),
-      })
+      }
+
+      updateAnalytics(newEntry)
+      logEntries.value.unshift(newEntry)
+
       if (logEntries.value.length > 1000) {
         logEntries.value.splice(1000)
       }
@@ -99,7 +163,6 @@ const startLogStream = async (tokenValue) => {
     if (err.name === 'AbortError') {
       status.value = 'Disconnected.'
     } else {
-      console.error('Log stream error:', err)
       error.value = err.message
       status.value = 'Error'
     }
@@ -152,28 +215,20 @@ const initialize = async () => {
 }
 
 onMounted(async () => {
-  // Check if the server data is already in the store
   const server = serverStore.getMcpserverById(serverId.value)
-
-  // If not (e.g., on a hard refresh), fetch it first
   if (!server) {
     try {
       await serverStore.loadMcpserverById(serverId.value)
     } catch (e) {
-      console.error('Failed to load MCP server data', e)
       status.value = 'Error'
       error.value = 'Failed to load MCP server data.'
       return
     }
   }
-
-  // Now that the store is populated, run the initialization
   initialize()
 })
 
-onUnmounted(() => {
-  abortController.abort()
-})
+onUnmounted(() => abortController.abort())
 </script>
 
 <template>
@@ -197,14 +252,75 @@ onUnmounted(() => {
         <p v-if="error" class="text-red-400 mt-2">{{ error }}</p>
       </div>
 
+      <div class="mb-4 space-y-4 shrink-0">
+        <div class="grid grid-cols-4 gap-4">
+          <div class="bg-gray-50 p-3 rounded-lg border border-gray-100 shadow-sm text-center">
+            <div class="text-[10px] uppercase font-bold text-gray-400">Clients</div>
+            <div class="text-xl font-mono font-black text-blue-600">{{ stats.clientsCount }}</div>
+          </div>
+          <div class="bg-gray-50 p-3 rounded-lg border border-gray-100 shadow-sm text-center">
+            <div class="text-[10px] uppercase font-bold text-gray-400">Sessions</div>
+            <div class="text-xl font-mono font-black text-purple-600">{{ stats.sessionsCount }}</div>
+          </div>
+          <div class="bg-gray-50 p-3 rounded-lg border border-gray-100 shadow-sm text-center">
+            <div class="text-[10px] uppercase font-bold text-gray-400">Tool Calls</div>
+            <div class="text-xl font-mono font-black text-green-600">{{ stats.toolCallsCount }}</div>
+          </div>
+          <div class="bg-gray-50 p-3 rounded-lg border border-gray-100 shadow-sm text-center">
+            <div class="text-[10px] uppercase font-bold text-gray-400">Method Calls</div>
+            <div class="text-xl font-mono font-black text-gray-800">{{ stats.totalCallsCount }}</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-gray-50 p-3 rounded-lg border border-gray-100 shadow-sm">
+            <div class="text-[10px] uppercase font-bold text-gray-500 mb-2 border-b pb-1">Top Tool Calls</div>
+            <div v-if="stats.topTools.length === 0"
+              class="h-20 flex items-center justify-center text-[10px] text-gray-400 italic">Waiting for tool calls...
+            </div>
+            <div v-else class="space-y-2 h-20 overflow-y-auto">
+              <div v-for="[name, count] in stats.topTools" :key="name" class="space-y-1">
+                <div class="flex justify-between text-[10px] font-mono">
+                  <span class="truncate pr-2">{{ name }}</span>
+                  <span class="font-bold">{{ count }}</span>
+                </div>
+                <div class="w-full bg-gray-200 h-1 rounded-full overflow-hidden">
+                  <div class="bg-green-500 h-full transition-all duration-500"
+                    :style="{ width: (count / stats.toolCallsCount * 100) + '%' }"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 p-3 rounded-lg border border-gray-100 shadow-sm">
+            <div class="text-[10px] uppercase font-bold text-gray-500 mb-2 border-b pb-1">Top Method Calls</div>
+            <div v-if="stats.topMethods.length === 0"
+              class="h-20 flex items-center justify-center text-[10px] text-gray-400 italic">Waiting for requests...
+            </div>
+            <div v-else class="space-y-2 h-20 overflow-y-auto">
+              <div v-for="[name, count] in stats.topMethods" :key="name" class="space-y-1">
+                <div class="flex justify-between text-[10px] font-mono">
+                  <span class="truncate pr-2">{{ name }}</span>
+                  <span class="font-bold">{{ count }}</span>
+                </div>
+                <div class="w-full bg-gray-200 h-1 rounded-full overflow-hidden">
+                  <div class="bg-blue-500 h-full transition-all duration-500"
+                    :style="{ width: (count / stats.totalCallsCount * 100) + '%' }"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div
-        class="bg-black text-white font-mono rounded-lg shadow-inner grow overflow-y-auto p-4 flex flex-col-reverse min-h-[400px]">
+        class="bg-black text-white font-mono rounded-lg shadow-inner grow overflow-y-auto p-4 flex flex-col-reverse min-h-0">
         <div>
           <div v-for="(entry, index) in logEntries" :key="logEntries.length - index"
             class="text-xs leading-normal border-t border-gray-800 py-3 flex flex-row gap-x-4">
             <span class="select-none text-gray-600">{{
               String(logEntries.length - index).padStart(4, ' ')
-              }}</span>
+            }}</span>
 
             <div class="flex flex-col min-w-0">
               <div v-if="entry.raw && !entry.id && !entry.event && !entry.data" class="text-gray-400">
@@ -237,7 +353,7 @@ onUnmounted(() => {
               </div>
             </div>
           </div>
-          <div classs="shrink-0 py-3">
+          <div class="shrink-0 py-3">
             <div v-if="status === 'Connecting...' || status === 'Generating temporary token...'"
               class="text-yellow-400 animate-pulse text-xs">
               Connecting...
