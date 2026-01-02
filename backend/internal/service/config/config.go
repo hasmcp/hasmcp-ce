@@ -15,7 +15,7 @@ const (
 	_envVar       = "ENV"
 	_appName      = "HasMCP Community Edition"
 	_appShortName = "hasmcp-ce"
-	_appVersion   = "v0.2.0"
+	_appVersion   = "v0.2.1"
 
 	// ErrMissingAppConfig error that shares the app configuration is not provided
 	ErrMissingAppConfig err = "[config] app configuration must be provided in " + _configPath + "/<>.yaml file"

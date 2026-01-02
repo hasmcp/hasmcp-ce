@@ -56,7 +56,7 @@ Cloud version is available with Hobby(with monthly free-tier) and Pro subscripti
 
 **Observability and analytics**
 
-- [ ] Live MCP server analytics (In progress)
+- [x] Live MCP server analytics (Completed in v0.2.1)
 
 **Functionality and token optimizations**
 
@@ -170,10 +170,10 @@ docker stop hasmcp-ce || true; \
     -d --restart always hasmcp/hasmcp-ce:latest
 ```
 
-Other known versions for example v0.2.0:
+Other known versions for example v0.2.1:
 
 ```
-HASMCP_VERSION=v0.2.0 \
+HASMCP_VERSION=v0.2.1 \
   docker stop hasmcp-ce || true; \
   docker rm hasmcp-ce || true; \
   docker image prune -f; \
