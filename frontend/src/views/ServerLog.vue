@@ -40,30 +40,31 @@ const stats = computed(() => ({
 }))
 
 const updateAnalytics = (entry) => {
-  // Focus on incoming requests starting with «
+  // Only focus on incoming requests indicated by "«"
   if (!entry.event || !entry.event.startsWith('«')) return
 
   analytics.totalCalls++
 
-  // Format: « [session].[client]/[version].[method]
-  const eventParts = entry.event.split(' ')
-  if (eventParts.length < 2) return
+  // Regex captures: « [session].[client]/[version].[method]
+  // This handles client names with parentheses and versions with dots by:
+  // 1. Capturing session until first dot
+  // 2. Capturing client info until the protocol slash
+  // 3. Capturing version until the final dot
+  // 4. Capturing the remainder as the method name
+  const parts = entry.event.match(/^«\s+([^.]+)\.(.+)\/([^.]+)\.(.+)$/)
 
-  const fullMeta = eventParts[1]
-  const lastDotIndex = fullMeta.lastIndexOf('.')
-  const methodName = fullMeta.substring(lastDotIndex + 1)
-  const prefix = fullMeta.substring(0, lastDotIndex)
-  const metaSegments = prefix.split('.')
+  if (!parts) return
 
-  const sessionId = metaSegments[0]
-  const clientInfo = metaSegments[1] || ''
-  const clientName = clientInfo.split('/')[0]
+  const [_, sessionId, clientInfo, _version, methodName] = parts
 
+  // Update unique tracking sets
   if (sessionId) analytics.sessions.add(sessionId)
-  if (clientName) analytics.clients.add(clientName)
+  if (clientInfo) analytics.clients.add(clientInfo)
 
+  // Track the general method call (e.g., "resources/list", "notifications/initialized")
   analytics.methodCalls[methodName] = (analytics.methodCalls[methodName] || 0) + 1
 
+  // Handle specialized tool calls specifically
   if (methodName === 'tools/call' && entry.data) {
     analytics.totalToolCalls++
     try {
@@ -72,7 +73,9 @@ const updateAnalytics = (entry) => {
       if (toolName) {
         analytics.toolCalls[toolName] = (analytics.toolCalls[toolName] || 0) + 1
       }
-    } catch (e) { /* ignore parse errors */ }
+    } catch (e) {
+      // Ignore malformed JSON in the stream
+    }
   }
 }
 
@@ -320,7 +323,7 @@ onUnmounted(() => abortController.abort())
             class="text-xs leading-normal border-t border-gray-800 py-3 flex flex-row gap-x-4">
             <span class="select-none text-gray-600">{{
               String(logEntries.length - index).padStart(4, ' ')
-            }}</span>
+              }}</span>
 
             <div class="flex flex-col min-w-0">
               <div v-if="entry.raw && !entry.id && !entry.event && !entry.data" class="text-gray-400">
