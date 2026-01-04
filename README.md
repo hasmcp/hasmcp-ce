@@ -22,7 +22,9 @@ production.
 
 - Long term, short-term authentication tokens per MCP Server
 
-- Live tail MCP Server tool call logs
+- Real-time MCP Server method/tool call logs
+
+- Real-time MCP server analytics (added in v0.2.2)
 
 - Optional automated SSL with Let's encrypt
 
@@ -53,10 +55,6 @@ Cloud version is available with Hobby(with monthly free-tier) and Pro subscripti
 - [ ] Protocol updates
 
 ### HasMCP-CE (including Pro and Enterprise) short term roadmap
-
-**Observability and analytics**
-
-- [x] Live MCP server analytics (Completed in v0.2.2)
 
 **Functionality and token optimizations**
 
@@ -193,7 +191,7 @@ Documentation for tutorials and terminology are available at [docs.hasmcp.com](h
 
 ## Licenses
 
-- [GPLV3](./LICENSE)
+- [AGPL-3.0](./LICENSE)
 - [Commercial License](./COMMERCIAL_LICENSE) is available that removes the restrictions of GPLV3 with license purchase.
 
 (c) 2026 Contextual, Inc.

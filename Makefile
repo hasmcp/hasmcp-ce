@@ -1,5 +1,5 @@
 # Define the version/tag for your Docker image
-HASMPC_VERSION ?= latest
+HASMPC_VERSION ?= v0.2.2
 
 # Define the full image name
 IMAGE_NAME = hasmcp/hasmcp-ce
@@ -14,7 +14,7 @@ setup:
 		wget https://raw.githubusercontent.com/hasmcp/hasmcp-ce/refs/heads/main/backend/cmd/server/.env.example -o .env;
 
 push-build:
-	docker buildx build --platform linux/amd64,linux/arm64 --tag hasmcp/hasmcp-ce:latest -f Dockerfile --push .
+	docker buildx build --platform linux/amd64,linux/arm64 --tag hasmcp/hasmcp-ce:v0.2.2 -f Dockerfile --push .
 
 stats:
 	docker stats hasmcp-ce
