@@ -2,7 +2,7 @@
 
 ## Licenses
 
-- [GPLV3](./LICENSE)
+- [AGPL-3.0](./LICENSE)
 - [Commercial License](./COMMERCIAL_LICENSE) is available that removes the restrictions of GPLV3 with license purchase.
 
 (c) 2026 Contextual, Inc.
