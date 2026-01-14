@@ -326,18 +326,20 @@ func buildQuery(queryArgs json.RawMessage) string {
 	if len(queryArgs) == 0 {
 		return ""
 	}
+
 	var args map[string]string
-	err := json.Unmarshal(queryArgs, &args)
-	if err != nil {
+	if err := json.Unmarshal(queryArgs, &args); err != nil {
 		return ""
 	}
 
-	queries := make([]string, 0, len(args))
+	if len(args) == 0 {
+		return ""
+	}
+
+	params := make(url.Values)
 	for key, value := range args {
-		queries = append(queries, key+"="+value)
+		params.Set(key, value)
 	}
-	if len(queries) > 0 {
-		return "?" + strings.Join(queries, "&")
-	}
-	return ""
+
+	return "?" + params.Encode()
 }
