@@ -168,10 +168,10 @@ docker stop hasmcp-ce || true; \
     -d --restart always hasmcp/hasmcp-ce:latest
 ```
 
-Other known versions for example v0.2.2:
+Other known versions for example v0.2.3:
 
 ```
-HASMCP_VERSION=v0.2.2 \
+HASMCP_VERSION=v0.2.3 \
   docker stop hasmcp-ce || true; \
   docker rm hasmcp-ce || true; \
   docker image prune -f; \
