@@ -69,6 +69,10 @@ func New(p Params) (Controller, error) {
 		return nil, err
 	}
 
+	if len(cfg.Secret) < 32 {
+		return nil, fmt.Errorf("oauth2 mcp provider jwt secret is too short: must be at least 32 characters")
+	}
+
 	return &controller{
 		secret: []byte(cfg.Secret),
 	}, nil
