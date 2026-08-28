@@ -83,7 +83,13 @@ func (c *controller) CreateServerTool(
 		ResourceOwnerID: e.ServerID,
 	})
 
-	return &entity.CreateServerToolResponse{}, nil
+	return &entity.CreateServerToolResponse{
+		Tool: entity.ServerTool{
+			ServerID:   dt.ServerID,
+			ProviderID: dt.ProviderID,
+			ToolID:     dt.ToolID,
+		},
+	}, nil
 }
 
 func (c *controller) DeleteServerTool(ctx context.Context, req entity.DeleteServerToolRequest) error {
