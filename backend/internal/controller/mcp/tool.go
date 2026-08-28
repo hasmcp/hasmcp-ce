@@ -41,6 +41,8 @@ const (
 	_argsPathArgs  = "pathArgs"
 	_argsQueryArgs = "queryArgs"
 	_argsBodyArgs  = "bodyArgs"
+
+	_maxToolErrorResponseBodyBytes = 64 * 1024
 )
 
 var (
@@ -223,17 +225,19 @@ func (c *controller) CallToolsCall(ctx context.Context, req CallSessionRequest) 
 		return nil, err
 	}
 
-	body := res.Body
-	defer body.Close()
-	resBody, _ := io.ReadAll(body)
+	defer res.Body.Close()
+	resBody, toolCallFailed := readToolResponse(res)
 
 	resPayload := protocol.CallToolResult{
 		Content: []protocol.ContentBlock{
 			protocol.TextContent{
-				Text: string(resBody),
+				Text: resBody,
 				Type: "text",
 			},
 		},
+	}
+	if toolCallFailed {
+		resPayload.IsError = boolPtr(true)
 	}
 
 	result, err := json.Marshal(resPayload)
@@ -258,6 +262,37 @@ func (c *controller) CallToolsCall(ctx context.Context, req CallSessionRequest) 
 			Result:  result,
 		},
 	}, nil
+}
+
+func readToolResponse(res *http.Response) (string, bool) {
+	if res.StatusCode >= http.StatusOK && res.StatusCode < http.StatusMultipleChoices {
+		body, err := io.ReadAll(res.Body)
+		if err != nil {
+			return "failed to read the upstream response", true
+		}
+		return string(body), false
+	}
+
+	limitedBody := io.LimitReader(res.Body, _maxToolErrorResponseBodyBytes+1)
+	body, err := io.ReadAll(limitedBody)
+	if err != nil {
+		return "upstream request failed: " + res.Status, true
+	}
+
+	truncated := len(body) > _maxToolErrorResponseBodyBytes
+	if truncated {
+		body = body[:_maxToolErrorResponseBodyBytes]
+	}
+
+	message := strings.TrimSpace(string(body))
+	if message == "" {
+		message = "upstream request failed: " + res.Status
+	}
+	if truncated {
+		message += "\n[upstream error response truncated]"
+	}
+
+	return message, true
 }
 
 func buildHeaders(callerHeaders map[string][]string, toolHeaders []entity.ToolHeader, cache cache.Controller) http.Header {
